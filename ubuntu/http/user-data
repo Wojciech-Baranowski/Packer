@@ -1,0 +1,16 @@
+#cloud-config
+autoinstall:
+  version: 1
+  identity:
+    hostname: vm
+    username: simmondobber
+    password: "$6$aWlup33e0ssW4l8t$JOsJWD5leNJ.G2BD0zlt1uGc/bZpiDb89IazGRdMyV61vCjKO30So3l6ur94vvs0J8PFGKTVR54uPDsShpzL9."
+  package_update: true
+  packages:
+    - sudo
+    - qemu-guest-agent
+  ssh:
+    allow-pw: true
+    authorized-keys:
+      - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPMECIvBi5FETUaVEdKuLUeU9jLHdGjAVHLfsVI6pTPF non-interactive key"
+    install-server: true
