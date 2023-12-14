@@ -1,89 +1,3 @@
-variable "proxmox_api_token_id" {
-  type = string
-  sensitive = true
-}
-
-variable "proxmox_api_token_secret" {
-  type = string
-  sensitive = true
-}
-
-variable "ssh_password" {
-  type = string
-  sensitive = true
-}
-
-variable "vm_password" {
-  type = string
-  sensitive = true
-}
-
-variable "proxmox_api_address" {
-  type = string
-  default = "192.168.1.78"
-}
-
-variable "vm_id" {
-  type = number
-  default = 200
-}
-
-variable "vm_name" {
-  type = string
-  default = "worker-node"
-}
-
-variable "vm_description" {
-  type = string
-  default = "Template for cluster worker node"
-}
-
-variable "vm_cores" {
-  type = number
-  default = 2
-}
-
-variable "vm_memory" {
-  type = number
-  default = 8192
-}
-
-variable "iso_file" {
-  type = string
-  default = "ubuntu.iso"
-}
-
-variable "provisioning_server_address" {
-  type = string
-  default = "192.168.1.14"
-}
-
-variable "provisioning_server_port_range_min" {
-  type = number
-  default = 12222
-}
-
-variable "provisioning_server_port_range_max" {
-  type = number
-  default = 12232
-}
-
-variable "ssh_username" {
-  type = string
-  default = "simmondobber"
-}
-
-variable "ssh_timeout" {
-  type = string
-  default = "60m"
-}
-
-variable "disk_size" {
-  type = string
-  default = "20G"
-}
-
-
 source "proxmox" "ubuntu-build" {
 
   #proxmox connection
@@ -108,7 +22,7 @@ source "proxmox" "ubuntu-build" {
   unmount_iso = true
 
   #provisioning server
-  http_directory = "http"
+  http_directory = "../http"
   http_bind_address = "${var.provisioning_server_address}"
   http_port_min = "${var.provisioning_server_port_range_min}"
   http_port_max = "${var.provisioning_server_port_range_max}"
@@ -120,7 +34,6 @@ source "proxmox" "ubuntu-build" {
 
   #cloud-init ssh
   ssh_username = "${var.ssh_username}"
-  #ssh_private_key_file = "~/.ssh/packer"
   ssh_password = "${var.ssh_password}"
   ssh_timeout = "${var.ssh_timeout}"
   ssh_pty = true
@@ -155,6 +68,7 @@ source "proxmox" "ubuntu-build" {
 
 build {
 
+  #source
   name = "${var.vm_name}"
   sources = ["source.proxmox.ubuntu-build"]
 
@@ -176,7 +90,7 @@ build {
 
   #proxmox config upload
   provisioner "file" {
-    source = "files/99-pve.cfg"
+    source = "../files/99-pve.cfg"
     destination = "/tmp/99-pve.cfg"
   }
 
