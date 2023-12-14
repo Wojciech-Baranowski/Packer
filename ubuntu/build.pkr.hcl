@@ -22,7 +22,7 @@ source "proxmox" "ubuntu-build" {
   unmount_iso = true
 
   #provisioning server
-  http_directory = "../http"
+  http_directory = "http"
   http_bind_address = "${var.provisioning_server_address}"
   http_port_min = "${var.provisioning_server_port_range_min}"
   http_port_max = "${var.provisioning_server_port_range_max}"
@@ -90,7 +90,7 @@ build {
 
   #proxmox config upload
   provisioner "file" {
-    source = "../files/99-pve.cfg"
+    source = "files/99-pve.cfg"
     destination = "/tmp/99-pve.cfg"
   }
 
