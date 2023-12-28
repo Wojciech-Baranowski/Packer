@@ -1,7 +1,7 @@
 source "proxmox" "ubuntu-build" {
 
   #proxmox connection
-  proxmox_url = "https://${var.proxmox_api_address}:8006/api2/json"
+  proxmox_url = "${var.proxmox_api_address}"
   username = "${var.proxmox_api_token_id}"
   token = "${var.proxmox_api_token_secret}"
   insecure_skip_tls_verify = true
@@ -17,7 +17,7 @@ source "proxmox" "ubuntu-build" {
   memory = "${var.vm_memory}"
 
   #iso
-  iso_file = "local:iso/${var.iso_file}"
+  iso_file = "${var.iso_file}"
   iso_storage_pool = "local"
   unmount_iso = true
 
@@ -72,10 +72,21 @@ build {
   name = "${var.vm_name}"
   sources = ["source.proxmox.ubuntu-build"]
 
-  #vm cleanup
+  #proxmox config upload
+  provisioner "file" {
+    source = "files/99-pve.cfg"
+    destination = "/tmp/99-pve.cfg"
+  }
+
+  #network config upload
+  provisioner "file" {
+    source = "files/50-network.yaml"
+    destination = "/tmp/50-network.yaml"
+  }
+
+  #vm config
   provisioner "shell" {
     inline = [
-      "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done",
       "echo '${var.vm_password}' | sudo -S whoami",
       "sudo rm -rf /etc/ssh/ssh_host_*",
       "sudo truncate -s 0 /etc/machine-id",
@@ -85,20 +96,13 @@ build {
       "sudo cloud-init clean",
       "sudo rm -rf /etc/cloud/cloud.cfg.d/subiquity-disable-cloudinit-networking.cfg",
       "sudo sync",
+      "sudo cp /tmp/99-pve.cfg /etc/cloud/cloud.cfg.d/99-pve.cfg",
+      "sudo cp /tmp/50-network.yaml /etc/netplan/50-network.yaml"
     ]
   }
 
-  #proxmox config upload
-  provisioner "file" {
-    source = "files/99-pve.cfg"
-    destination = "/tmp/99-pve.cfg"
-  }
-
-  #proxmox config distribution
+  #custom provisioning
   provisioner "shell" {
-    inline = [
-      "echo '${var.vm_password}' | sudo -S whoami",
-      "sudo cp /tmp/99-pve.cfg /etc/cloud/cloud.cfg.d/99-pve.cfg"
-    ]
+    inline = concat(["echo '${var.vm_password}' | sudo -S whoami"], var.provisioning)
   }
 }

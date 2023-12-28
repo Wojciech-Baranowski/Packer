@@ -53,6 +53,10 @@ variable "disk_size" {
   type = string
 }
 
+variable "provisioning" {
+  type = list(string)
+}
+
 
 #secrets
 variable "proxmox_api_token_id" {
