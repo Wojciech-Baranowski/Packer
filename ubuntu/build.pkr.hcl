@@ -1,31 +1,31 @@
 source "proxmox" "ubuntu-build" {
 
   #proxmox connection
-  proxmox_url = "${var.proxmox_api_address}"
-  username = "${var.proxmox_api_token_id}"
-  token = "${var.proxmox_api_token_secret}"
+  proxmox_url = var.proxmox_api_address
+  username = var.proxmox_api_token_id
+  token = var.proxmox_api_token_secret
   insecure_skip_tls_verify = true
 
   #virtual machine
   node = "pve"
-  vm_id = "${var.vm_id}"
-  vm_name = "${var.vm_name}"
-  template_description = "${var.vm_description}"
+  vm_id = var.vm_id
+  vm_name = var.vm_name
+  template_description = var.vm_description
 
   #hardware
-  cores = "${var.vm_cores}"
-  memory = "${var.vm_memory}"
+  cores = var.vm_cores
+  memory = var.vm_memory
 
   #iso
-  iso_file = "${var.iso_file}"
+  iso_file = var.iso_file
   iso_storage_pool = "local"
   unmount_iso = true
 
   #provisioning server
   http_directory = "http"
-  http_bind_address = "${var.provisioning_server_address}"
-  http_port_min = "${var.provisioning_server_port_range_min}"
-  http_port_max = "${var.provisioning_server_port_range_max}"
+  http_bind_address = var.provisioning_server_address
+  http_port_min = var.provisioning_server_port_range_min
+  http_port_max = var.provisioning_server_port_range_max
 
   #cloud init
   cloud_init_storage_pool = "local-lvm"
@@ -33,15 +33,15 @@ source "proxmox" "ubuntu-build" {
   qemu_agent = true
 
   #cloud-init ssh
-  ssh_username = "${var.ssh_username}"
-  ssh_password = "${var.ssh_password}"
-  ssh_timeout = "${var.ssh_timeout}"
+  ssh_username = var.ssh_username
+  ssh_password = var.ssh_password
+  ssh_timeout = var.ssh_timeout
   ssh_pty = true
 
   #storage
   disks {
     type = "scsi"
-    disk_size = "${var.disk_size}"
+    disk_size = var.disk_size
     storage_pool = "local-lvm"
     storage_pool_type = "lvm"
   }
@@ -69,7 +69,7 @@ source "proxmox" "ubuntu-build" {
 build {
 
   #source
-  name = "${var.vm_name}"
+  name = var.vm_name
   sources = ["source.proxmox.ubuntu-build"]
 
   #proxmox config upload
