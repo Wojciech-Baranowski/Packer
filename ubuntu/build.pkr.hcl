@@ -97,7 +97,7 @@ build {
       "sudo rm -rf /etc/cloud/cloud.cfg.d/subiquity-disable-cloudinit-networking.cfg",
       "sudo sync",
       "sudo cp /tmp/99-pve.cfg /etc/cloud/cloud.cfg.d/99-pve.cfg",
-      "sudo cp /tmp/50-network.yaml /etc/netplan/50-network.yaml",
+      "sudo rm -rf /etc/netplan/*",
       "sudo sleep 60"
     ]
   }

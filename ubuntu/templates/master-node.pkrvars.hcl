@@ -1,9 +1,9 @@
-vm_id = 201
-vm_name = "worker-node"
-vm_description = "Template for cluster worker node"
-vm_cores = 2
-vm_memory = 8192
-disk_size = "40G"
+vm_id = 200
+vm_name = "master-node"
+vm_description = "Template for cluster master node"
+vm_cores = 4
+vm_memory = 16384
+disk_size = "60G"
 ssh_timeout = "100m"
 
 provisioning = [
