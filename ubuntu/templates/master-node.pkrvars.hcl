@@ -19,6 +19,7 @@ provisioning = [
   "sudo swapoff -a",
   "sudo sed -i '/swap/c\\' /etc/fstab",
   "sudo sed -i '/net.ipv4.ip_forward/c\\net.ipv4.ip_forward=1' /etc/sysctl.conf",
+  "sudo mkdir /etc/kubernetes",
   "sudo curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-archive-keyring.gpg",
   "sudo echo \"deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main\" | sudo tee /etc/apt/sources.list.d/kubernetes.list",
   "sudo apt update",

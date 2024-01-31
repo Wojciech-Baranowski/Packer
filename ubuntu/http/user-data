@@ -12,5 +12,7 @@ autoinstall:
   ssh:
     allow-pw: true
     authorized-keys:
-      - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPMECIvBi5FETUaVEdKuLUeU9jLHdGjAVHLfsVI6pTPF non-interactive key"
+      - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPMECIvBi5FETUaVEdKuLUeU9jLHdGjAVHLfsVI6pTPF packer"
+      - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINWECc+a6xErssuIF+JSBx3URzr/eOyvuy5gzuf/llbI ansible"
+      - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOqazeo3JQsV7vI0vMRcEZH/U1rwQMx05gNhUE+EIyUX proxmox"
     install-server: true
